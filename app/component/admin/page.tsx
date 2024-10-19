@@ -1,8 +1,7 @@
-
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useState } from "react";
+import CSVReader from "react-csv-reader";
 import Papa from 'papaparse';
-import CSVReader from 'react-csv-reader';
 
 const papaparseOptions = {
   header: true,
@@ -11,86 +10,48 @@ const papaparseOptions = {
   transformHeader: (header: string) => header.toLowerCase().replace(/\W/g, "_"),
 };
 
-const Leaderboard = () => {
-  interface Leader {
-    name: string;
-    badges: number;
-  }
+const AdminCSVUpload = () => {
+  const [data, setData] = useState<{ name: string; badges: number }[]>([]);
 
-  const [leaders, setLeaders] = useState<Leader[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch and parse the initial CSV file
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/path-to-your-csv-file.csv'); // Add the path to your CSV file
-        const csvText = await response.text();
-
-        // Parse CSV file
-        Papa.parse<any>(csvText, {
-          header: true,
-          complete: (result) => {
-            // Extract relevant data (Name and # of Skill Badges Completed)
-            const parsedData = result.data.map((row) => ({
-              name: (row as any)['User Name'],
-              badges: parseInt(row['# of Skill Badges Completed'], 10),
-            }));
-
-            // Sort data based on number of badges
-            parsedData.sort((a, b) => b.badges - a.badges);
-            setLeaders(parsedData);
-            setLoading(false);
-          },
-        });
-      } catch (error) {
-        console.error("Error fetching or parsing CSV:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleCSVUpload = (uploadedData: any[]) => {
+  const handleForce = (uploadedData: any[]) => {
+    console.log(uploadedData);
     const leaderboardData = uploadedData.map((entry) => ({
-      name: entry.name,
-      badges: parseInt(entry.skill_badges_completed),
+      name: entry['user_name'], // Adjusting to match the CSV header
+      badges: parseInt(entry['__of_skill_badges_completed'], 10) || 0, // Default to 0 if undefined
     }));
+    console.log(leaderboardData);
 
     // Sort data based on number of badges
     leaderboardData.sort((a, b) => b.badges - a.badges);
-    setLeaders(leaderboardData);
+    setData(leaderboardData);
+
+    // Store this data in localStorage
+    localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
   };
 
   return (
-    <div>
-      <h1>GDG Leaderboard</h1>
-
+    <div className="container">
       <CSVReader
         cssClass="react-csv-input"
         label="Select CSV with Skill Badges Data"
-        onFileLoaded={handleCSVUpload}
+        onFileLoaded={handleForce}
         parserOptions={papaparseOptions}
       />
       <p>Upload the CSV to update leaderboard data.</p>
-
-      <div>
-        {loading ? (
-          <p>Loading leaderboard...</p>
-        ) : (
+      {data.length > 0 && (
+        <div>
+          <h2>Uploaded Data:</h2>
           <ul>
-            {leaders.map((leader, index) => (
+            {data.map((entry, index) => (
               <li key={index}>
-                <span>{index + 1}. {leader.name}</span>
-                <span> - {leader.badges} badges</span>
+                {entry.name} - {entry.badges} badges
               </li>
             ))}
           </ul>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Leaderboard;
+export default AdminCSVUpload;

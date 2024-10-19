@@ -7,14 +7,22 @@ import { MagicCard } from "./ui/magic-card";
 import ParticlesBackground from "./ui/particles";
 
 const HomePage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<{ name: string; score: number }[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<{ name: string; badges: number }[]>([]);
 
   useEffect(() => {
-    // Fetch leaderboard data from localStorage or API if needed
+    // Fetch leaderboard data from localStorage
     const storedData = localStorage.getItem('leaderboardData');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      setLeaderboardData(parsedData.sort((a: any, b: any) => b.score - a.score));
+      // Sort by badges and ensure badges are displayed as 0 if absent
+      const sortedData = parsedData
+        .map((entry: { name: string; badges: number }) => ({
+          name: entry.name,
+          badges: entry.badges || 0, // Default to 0 if badges are undefined or absent
+        }))
+        .sort((a: { badges: number; }, b: { badges: number; }) => b.badges - a.badges);
+
+      setLeaderboardData(sortedData);
     }
   }, []);
 
@@ -33,7 +41,6 @@ const HomePage = () => {
     hidden: { opacity: 0, y: 10 },
     show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
-  console.log(leaderboardData);
 
   return (
     <div className="relative min-h-screen w-full bg-transparent dark:bg-gray-800 overflow-hidden">
@@ -52,19 +59,22 @@ const HomePage = () => {
             animate="show"
             variants={containerVariants}
           >
-            {leaderboardData.map((leader, index) => (
-              <motion.div key={index} variants={cardVariants}>
-                <MagicCard
-                  className="flex-row items-center justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
-                  gradientColor="#D9D9D955"
-                >
-                  <div className="flex justify-between w-full">
+            {leaderboardData.length > 0 ? (
+              leaderboardData.map((leader, index) => (
+                <motion.div key={index} variants={cardVariants}>
+                  <MagicCard
+                    className="flex flex-1 flex-row  items-center space-x-[200px] justify-center p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
+                    gradientColor="#D9D9D955"
+                  >
                     <h3 className="text-base font-medium">{leader.name}</h3>
-                    <p className="text-base font-semibold float-right ml-auto">Score: {leader.score}</p>
-                  </div>
-                </MagicCard>
-              </motion.div>
-            ))}
+                    <p className="text-base font-semibold">Badges: {leader.badges}</p>
+                  </MagicCard>
+
+                </motion.div>
+              ))
+            ) : (
+              <p>No leaderboard data available.</p>
+            )}
           </motion.div>
         </div>
       </div>
