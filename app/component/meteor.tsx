@@ -1,18 +1,17 @@
+"use client";
 
-'use client'
-import React from "react";
-import ParticlesBackground from "./ui/particles";
-import Mainpage from "./mainpage";
+import RetroGrid from "./ui/particles";
 
-const LandingPage = () => {
-    return (
-        <div className="relative min-h-screen w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
-            <ParticlesBackground />
-           
-               <Mainpage/>
-            
-        </div>
-    );
-};
 
-export default LandingPage;
+
+export default function RetroGridDemo() {
+  return (
+    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+      <span className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-7xl font-bold leading-none tracking-tighter text-transparent">
+        chakka
+      </span>
+
+      <RetroGrid />
+    </div>
+  );
+}
