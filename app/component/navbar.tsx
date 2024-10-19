@@ -8,7 +8,7 @@ const Navbar = () => {
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <a href="https://gdg.community.dev/gdg-on-campus-amal-jyothi-college-of-engineering-kanjirappally-india/" className="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="https://envs.sh/TxW.png" className="h-8" alt="GDG Logo" />
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">GDG</span>
+        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">GDG-Leaderboard</span>
     </a>
    
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
