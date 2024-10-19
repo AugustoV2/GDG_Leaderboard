@@ -1,7 +1,12 @@
 'use client';
 import React, { useState } from "react";
+
+interface LeaderboardEntry {
+  user_name: string;
+  __of_skill_badges_completed: string;
+}
 import CSVReader from "react-csv-reader";
-import Papa from 'papaparse';
+
 
 const papaparseOptions = {
   header: true,
@@ -13,7 +18,7 @@ const papaparseOptions = {
 const AdminCSVUpload = () => {
   const [data, setData] = useState<{ name: string; badges: number }[]>([]);
 
-  const handleForce = (uploadedData: any[]) => {
+  const handleForce = (uploadedData: Array<LeaderboardEntry>) => {
     console.log(uploadedData);
     const leaderboardData = uploadedData.map((entry) => ({
       name: entry['user_name'], // Adjusting to match the CSV header
