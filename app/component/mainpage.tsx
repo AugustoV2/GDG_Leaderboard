@@ -13,6 +13,7 @@ const HomePage = () => {
     // Retrieve Blob ID from localStorage
     const savedBlobId = '1297128425545129984'; // Blob ID for the JSONBlob API
     if (savedBlobId) {
+
       // Fetch leaderboard data from JSONBlob using the Blob ID
       fetch(`https://jsonblob.com/api/jsonBlob/${savedBlobId}`)
         .then((response) => response.json())
@@ -50,14 +51,11 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full dark:bg-gray-800 overflow-hidden">
-      {/* Particle background with lower z-index */}
-      <div className="absolute inset-0 z-0 pointer-events-auto">
-        <ParticlesBackground />
-      </div>
+    <div className="relative min-h-screen w-full bg-transparent dark:bg-gray-800 overflow-hidden">
+      <ParticlesBackground />
 
-      {/* Foreground content with higher z-index and pointer-events disabled */}
-      <div className="relative z-10 pointer-events-none">
+      {/* Foreground content */}
+      <div className="relative z-10">
         {/* Navbar */}
         <Navbar />
 
@@ -79,6 +77,7 @@ const HomePage = () => {
                     <h3 className="text-base font-medium">{leader.name}</h3>
                     <p className="text-base font-semibold">Badges: {leader.badges}</p>
                   </MagicCard>
+
                 </motion.div>
               ))
             ) : (
