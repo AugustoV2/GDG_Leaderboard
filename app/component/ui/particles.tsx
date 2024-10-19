@@ -38,7 +38,7 @@ const ParticlesBackground = () => {
                             distance: 400,
                             duration: 10,
                             opacity: 0.8,
-                            size: 40,
+                            size: 20,
                         },
                         push: {
                             quantity: 4,
@@ -68,15 +68,15 @@ const ParticlesBackground = () => {
                         enable: true,
                         outMode: "bounce",
                         random: false,
-                        speed: 6,
+                        speed: 3,
                         straight: false,
                     },
                     number: {
                         density: {
                             enable: true,
-                            value_area: 800,
+                            value_area: 500,
                         },
-                        value: 80,
+                        value: 50,
                     },
                     opacity: {
                         value: 0.5,
@@ -86,7 +86,7 @@ const ParticlesBackground = () => {
                     },
                     size: {
                         random: true,
-                        value: 5,
+                        value: 3,
                     },
                 },
                 detectRetina: true,
