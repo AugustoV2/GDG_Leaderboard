@@ -17,7 +17,7 @@ const Navbar = () => {
             className="h-8"
             alt="GDG Logo"
           />
-          <span className="text-xl font-medium text-gray-800 dark:text-white">GDG</span>
+          <span className="text-xl font-medium text-gray-800 dark:text-white">Google Developer Groups</span>
         </a>
 
         {/* Desktop Menu */}
