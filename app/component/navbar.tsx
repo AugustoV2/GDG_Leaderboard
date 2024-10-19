@@ -22,8 +22,8 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 items-center">
-          <a href="#" className="text-gray-700 dark:text-white hover:text-blue-600 transition">Home</a>
-          <a href="#" className="text-gray-700 dark:text-white hover:text-blue-600 transition">About</a>
+          <a href="./" className="text-gray-700 dark:text-white hover:text-blue-600 transition">Home</a>
+          <a href="https://developers.google.com/community/gdg" className="text-gray-700 dark:text-white hover:text-blue-600 transition">About</a>
           {/* Add more links as needed */}
         </div>
 
