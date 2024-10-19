@@ -12,20 +12,18 @@ const ParticlesBackground = () => {
         <Particles
             id="tsparticles"
             init={particlesInit}
-
             options={{
                 background: {
                     color: {
                         value: "#ffffff",
                     },
                 },
-                fpsLimit: 60,
+                fpsLimit: 30,  // Lowered FPS for better performance
                 interactivity: {
                     detectsOn: "canvas",
                     events: {
                         onClick: {
-                            enable: true,
-                            mode: "push",
+                            enable: false, // Disabled click interactions to reduce particle generation
                         },
                         onHover: {
                             enable: true,
@@ -35,27 +33,24 @@ const ParticlesBackground = () => {
                     },
                     modes: {
                         bubble: {
-                            distance: 400,
-                            duration: 10,
+                            distance: 300,
+                            duration: 2,
                             opacity: 0.8,
-                            size: 20,
-                        },
-                        push: {
-                            quantity: 4,
+                            size: 10,
                         },
                         repulse: {
-                            distance: 200,
+                            distance: 100, // Reduced distance for repulse to make it less CPU-intensive
                             duration: 0.4,
                         },
                     },
                 },
                 particles: {
                     color: {
-                        value: "#000",
+                        value: "#000", // Particle color
                     },
                     links: {
-                        color: "#000",
-                        distance: 150,
+                        color: "#000", // Link color
+                        distance: 100, // Reduced link distance for less complexity
                         enable: true,
                         opacity: 0.5,
                         width: 1,
@@ -68,29 +63,28 @@ const ParticlesBackground = () => {
                         enable: true,
                         outMode: "bounce",
                         random: false,
-                        speed: 3,
+                        speed: 1.5, // Reduced speed for smoother mobile performance
                         straight: false,
                     },
                     number: {
                         density: {
                             enable: true,
-                            value_area: 500,
+                            value_area: 800, // Larger area to space out particles more
                         },
-                        value: 50,
+                        value: 30, // Reduced the number of particles
                     },
                     opacity: {
-                        value: 0.5,
+                        value: 0.4, // Lowered opacity for better rendering
                     },
                     shape: {
                         type: "circle",
                     },
                     size: {
                         random: true,
-                        value: 3,
+                        value: 2, // Smaller particles for less rendering load
                     },
                 },
                 detectRetina: true,
-
             }}
         />
     );
