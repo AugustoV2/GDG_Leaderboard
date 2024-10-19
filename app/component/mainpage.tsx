@@ -16,10 +16,16 @@ const cardVariants = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
 };
 
+interface LeaderboardEntry {
+  name: string;
+  badges: number;
+  siNumber: number;  // Permanent serial number for each user
+}
+
 const HomePage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<{ name: string; badges: number }[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
-  const [filteredData, setFilteredData] = useState<{ name: string; badges: number }[]>([]); // Filtered leaderboard data
+  const [filteredData, setFilteredData] = useState<LeaderboardEntry[]>([]); // Filtered leaderboard data
 
   useEffect(() => {
     const savedBlobId = '1297128425545129984'; // Blob ID for the JSONBlob API
@@ -27,12 +33,14 @@ const HomePage = () => {
       fetch(`https://jsonblob.com/api/jsonBlob/${savedBlobId}`)
         .then((response) => response.json())
         .then((data) => {
-          const sortedData = data
-            .map((entry: { name: string; badges: number }) => ({
-              name: entry.name,
-              badges: entry.badges || 0,
-            }))
-            .sort((a: { badges: number }, b: { badges: number }) => b.badges - a.badges);
+          const mappedData = data.map((entry: { name: string; badges: number }, index: number) => ({
+            name: entry.name,
+            badges: entry.badges || 0,
+            siNumber: index + 1, // Assign permanent SI number based on initial index
+          }));
+
+          // Sort data by badges but SI number remains unchanged
+          const sortedData = mappedData.sort((a: { badges: number; }, b: { badges: number; }) => b.badges - a.badges);
 
           setLeaderboardData(sortedData);
           setFilteredData(sortedData);
@@ -86,7 +94,6 @@ const HomePage = () => {
                 className="w-full p-4 pl-12 text-lg rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out bg-white bg-opacity-80"
               />
               <svg
-                xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -118,7 +125,8 @@ const HomePage = () => {
                     className={`flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto`}
                     gradientColor="#D9D9D955"
                   >
-                    <h3 className="text-base font-medium">{index + 1}.{leader.name}</h3>
+                    {/* Display the permanent SI number and user name */}
+                    <h3 className="text-base font-medium">{leader.siNumber}: {leader.name}</h3>
                     <p className="text-base font-semibold">Badges: {leader.badges}</p>
                   </MagicCard>
                 </motion.div>
