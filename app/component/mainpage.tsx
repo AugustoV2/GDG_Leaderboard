@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Navbar from "./navbar";
 import { MagicCard } from "./ui/magic-card";
 import ParticlesBackground from "./ui/particles";
+import './confetti.css';  // Add a confetti effect
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -44,10 +45,29 @@ const HomePage = () => {
   }, []);
 
   const getRankColor = (index: number) => {
-    if (index === 0) return "bg-gradient-to-r from-gold to-light-gold";
-    if (index === 1) return "bg-gradient-to-r from-silver to-light-silver";
-    if (index === 2) return "bg-gradient-to-r from-bronze to-light-bronze";
-    return "bg-transparent";
+    switch (index) {
+      case 0:
+        return "bg-gradient-to-r from-yellow-400 to-yellow-500"; // Gold gradient for 1st place
+      case 1:
+        return "bg-gradient-to-r from-gray-300 to-gray-400"; // Silver gradient for 2nd place
+      case 2:
+        return "bg-gradient-to-r from-yellow-600 to-yellow-700"; // Bronze gradient for 3rd place
+      default:
+        return "bg-gray-100"; // Default for other ranks
+    }
+  };
+
+  const getEmojiForRank = (index: number) => {
+    switch (index) {
+      case 0:
+        return "🥇"; // First place
+      case 1:
+        return "🥈"; // Second place
+      case 2:
+        return "🥉"; // Third place
+      default:
+        return "";
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +93,7 @@ const HomePage = () => {
       </div>
 
       {/* Content Below Navbar */}
-      <div className="relative z-10 pt-20 pointer-events-none"> {/* Adjust padding to move content below navbar */}
+      <div className="relative z-10 pt-20 pointer-events-none">
         {/* Search bar */}
         <div className="container mx-auto p-4 pointer-events-auto">
           <div className="flex justify-center">
@@ -104,7 +124,7 @@ const HomePage = () => {
         </div>
 
         {/* Leaderboard Content */}
-        <div className="container mx-auto p-12 ">
+        <div className="container mx-auto p-12">
           <motion.div
             className="grid grid-cols-1 gap-4 lg:grid-cols-1"
             initial="hidden"
@@ -115,10 +135,14 @@ const HomePage = () => {
               filteredData.map((leader, index) => (
                 <motion.div key={index} variants={cardVariants}>
                   <MagicCard
-                    className={`flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto`}
+                    className={`relative flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto ${
+                      index < 3 ? 'confetti' : ''
+                    }`}
                     gradientColor="#D9D9D955"
                   >
-                    <h3 className="text-base font-medium">{index + 1}.{leader.name}</h3>
+                    <h3 className="text-base font-medium">
+                      {index + 1}. {getEmojiForRank(index)} {leader.name}
+                    </h3>
                     <p className="text-base font-semibold">Badges: {leader.badges}</p>
                   </MagicCard>
                 </motion.div>
