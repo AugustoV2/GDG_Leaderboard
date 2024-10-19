@@ -101,7 +101,7 @@ const HomePage = () => {
                     className={`flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)}`}
                     gradientColor="#D9D9D955"
                   >
-                    <h3 className="text-base font-medium">{leader.name}</h3>
+                    <h3 className="text-base font-medium">{index + 1}.{leader.name}</h3>
                     <p className="text-base font-semibold">Badges: {leader.badges}</p>
                   </MagicCard>
 
