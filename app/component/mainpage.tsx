@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./navbar";
 import { MagicCard } from "./ui/magic-card";
 import ParticlesBackground from "./ui/particles";
+import debounce from 'lodash.debounce';
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -58,14 +59,21 @@ const HomePage = () => {
     return "bg-transparent";
   };
 
+  // Use `useCallback` to memoize the debounced function and avoid unnecessary re-renders
+  const debouncedSearch = useCallback(
+    debounce((query: string) => {
+      const filtered = leaderboardData.filter((leader) =>
+        leader.name.toLowerCase().includes(query)
+      );
+      setFilteredData(filtered);
+    }, 300),  // 300ms debounce delay
+    [leaderboardData] // dependencies to re-calculate the filtered list
+  );
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-
-    const filtered = leaderboardData.filter((leader) =>
-      leader.name.toLowerCase().includes(query)
-    );
-    setFilteredData(filtered);
+    debouncedSearch(query);  // Use the debounced search function
   };
 
   return (

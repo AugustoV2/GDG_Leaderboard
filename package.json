@@ -17,6 +17,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.9",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.453.0",
     "next": "14.2.15",
     "next-themes": "^0.3.0",
@@ -31,6 +32,7 @@
     "tsparticles-slim": "^2.12.0"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/papaparse": "^5.3.15",
     "@types/react": "^18",
