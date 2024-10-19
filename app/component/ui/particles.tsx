@@ -23,7 +23,7 @@ const ParticlesBackground = () => {
                     detectsOn: "canvas",
                     events: {
                         onClick: {
-                            enable: false, // Disabled click interactions to reduce particle generation
+                            enable: true, // Disabled click interactions to reduce particle generation
                         },
                         onHover: {
                             enable: true,
@@ -36,10 +36,10 @@ const ParticlesBackground = () => {
                             distance: 300,
                             duration: 2,
                             opacity: 0.8,
-                            size: 10,
+                            size: 30,
                         },
                         repulse: {
-                            distance: 100, // Reduced distance for repulse to make it less CPU-intensive
+                            distance: 200, // Reduced distance for repulse to make it less CPU-intensive
                             duration: 0.4,
                         },
                     },
@@ -50,7 +50,7 @@ const ParticlesBackground = () => {
                     },
                     links: {
                         color: "#000", // Link color
-                        distance: 100, // Reduced link distance for less complexity
+                        distance: 200, // Reduced link distance for less complexity
                         enable: true,
                         opacity: 0.5,
                         width: 1,
@@ -62,7 +62,7 @@ const ParticlesBackground = () => {
                         direction: "none",
                         enable: true,
                         outMode: "bounce",
-                        random: false,
+                        random: true,
                         speed: 1.5, // Reduced speed for smoother mobile performance
                         straight: false,
                     },
@@ -71,17 +71,17 @@ const ParticlesBackground = () => {
                             enable: true,
                             value_area: 800, // Larger area to space out particles more
                         },
-                        value: 30, // Reduced the number of particles
+                        value: 40, // Reduced the number of particles
                     },
                     opacity: {
-                        value: 0.4, // Lowered opacity for better rendering
+                        value: 0.7, // Lowered opacity for better rendering
                     },
                     shape: {
                         type: "circle",
                     },
                     size: {
                         random: true,
-                        value: 2, // Smaller particles for less rendering load
+                        value: 4, // Smaller particles for less rendering load
                     },
                 },
                 detectRetina: true,
