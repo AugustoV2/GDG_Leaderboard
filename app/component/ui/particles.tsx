@@ -36,7 +36,7 @@ const ParticlesBackground = () => {
                     modes: {
                         bubble: {
                             distance: 400,
-                            duration: 9,
+                            duration: 10,
                             opacity: 0.8,
                             size: 40,
                         },
