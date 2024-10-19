@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./navbar";
 import { MagicCard } from "./ui/magic-card";
 import ParticlesBackground from "./ui/particles";
-import debounce from 'lodash.debounce';
+import debounce from "lodash.debounce";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -20,34 +20,41 @@ const cardVariants = {
 interface LeaderboardEntry {
   name: string;
   badges: number;
-  siNumber: number;  // Permanent serial number for each user
+  siNumber: number; // Permanent serial number for each user
 }
 
 const HomePage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
+    []
+  );
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
   const [filteredData, setFilteredData] = useState<LeaderboardEntry[]>([]); // Filtered leaderboard data
 
   useEffect(() => {
-    const savedBlobId = '1297128425545129984'; // Blob ID for the JSONBlob API
+    const savedBlobId = "1297128425545129984"; // Blob ID for the JSONBlob API
     if (savedBlobId) {
       fetch(`https://jsonblob.com/api/jsonBlob/${savedBlobId}`)
         .then((response) => response.json())
         .then((data) => {
-          const mappedData = data.map((entry: { name: string; badges: number }, index: number) => ({
-            name: entry.name,
-            badges: entry.badges || 0,
-            siNumber: index + 1, // Assign permanent SI number based on initial index
-          }));
+          const mappedData = data.map(
+            (entry: { name: string; badges: number }, index: number) => ({
+              name: entry.name,
+              badges: entry.badges || 0,
+              siNumber: index + 1, // Assign permanent SI number based on initial index
+            })
+          );
 
           // Sort data by badges but SI number remains unchanged
-          const sortedData = mappedData.sort((a: { badges: number; }, b: { badges: number; }) => b.badges - a.badges);
+          const sortedData = mappedData.sort(
+            (a: { badges: number }, b: { badges: number }) =>
+              b.badges - a.badges
+          );
 
           setLeaderboardData(sortedData);
           setFilteredData(sortedData);
         })
         .catch((error) => {
-          console.error('Error fetching data from JSONBlob:', error);
+          console.error("Error fetching data from JSONBlob:", error);
         });
     }
   }, []);
@@ -66,14 +73,14 @@ const HomePage = () => {
         leader.name.toLowerCase().includes(query)
       );
       setFilteredData(filtered);
-    }, 300),  // 300ms debounce delay
+    }, 300), // 300ms debounce delay
     [leaderboardData] // dependencies to re-calculate the filtered list
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    debouncedSearch(query);  // Use the debounced search function
+    debouncedSearch(query); // Use the debounced search function
   };
 
   return (
@@ -84,12 +91,16 @@ const HomePage = () => {
       </div>
 
       {/* Navbar */}
-      <div className="relative z-20"> {/* Adjust z-index of the navbar */}
+      <div className="relative z-20">
+        {" "}
+        {/* Adjust z-index of the navbar */}
         <Navbar />
       </div>
 
       {/* Content Below Navbar */}
-      <div className="relative z-10 pt-24 md:pt-20 pointer-events-none"> {/* Add top padding to move content down */}
+      <div className="relative z-10 pt-24 md:pt-20 pointer-events-none">
+        {" "}
+        {/* Add top padding to move content down */}
         {/* Search bar */}
         <div className="container mx-auto p-4 pointer-events-auto">
           <div className="flex justify-center">
@@ -118,9 +129,10 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-
         {/* Leaderboard Content */}
-        <div className="container mx-auto p-6 sm:p-12"> {/* Reduced padding for mobile */}
+        <div className="container mx-auto p-6 sm:p-12">
+          {" "}
+          {/* Reduced padding for mobile */}
           <motion.div
             className="grid grid-cols-1 gap-4 lg:grid-cols-1"
             initial="hidden"
@@ -131,12 +143,27 @@ const HomePage = () => {
               filteredData.map((leader, index) => (
                 <motion.div key={index} variants={cardVariants}>
                   <MagicCard
-                    className={`flex items-center space-x-10 sm:space-x-[200px] justify-between p-2 sm:p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto`} // Reduced padding in mobile view
+                    className={`flex items-center justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto bg-opacity-80 bg-white backdrop-blur-md ${getRankColor(
+                      index
+                    )} pointer-events-auto`}
                     gradientColor="#D9D9D955"
                   >
-                    {/* Display the permanent SI number and user name */}
-                    <h3 className="text-base font-medium">{leader.siNumber}: {leader.name}</h3>
-                    <p className="text-base font-semibold">Badges: {leader.badges}</p>
+                    <div className="flex items-center space-x-4">
+                      {/* Numbering placed on the left, centered vertically */}
+                      <div className="flex-shrink-0 text-center w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-gray-700">
+                      {leader.siNumber}
+                      </div>
+
+                      {/* Name and badges aligned separately */}
+                      <div className="flex flex-col">
+                      <h3 className="text-base font-medium text-gray-800">
+                        {leader.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-gray-600">
+                        Badges: {leader.badges}
+                      </p>
+                      </div>
+                    </div>
                   </MagicCard>
                 </motion.div>
               ))
