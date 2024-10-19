@@ -51,40 +51,39 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-transparent dark:bg-gray-800 overflow-hidden">
-      <ParticlesBackground />
+    <div className="relative min-h-screen w-full dark:bg-gray-800 overflow-hidden">
+      <ParticlesBackground/>
 
       {/* Foreground content */}
       <div className="relative z-10">
-        {/* Navbar */}
-        <Navbar />
+      {/* Navbar */}
+      <Navbar />
 
-        {/* Main Content */}
-        <div className="container mx-auto p-12">
-          <motion.div
-            className="grid grid-cols-1 gap-4 lg:grid-cols-1"
-            initial="hidden"
-            animate="show"
-            variants={containerVariants}
-          >
-            {leaderboardData.length > 0 ? (
-              leaderboardData.map((leader, index) => (
-                <motion.div key={index} variants={cardVariants}>
-                  <MagicCard
-                    className="flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
-                    gradientColor="#D9D9D955"
-                  >
-                    <h3 className="text-base font-medium">{leader.name}</h3>
-                    <p className="text-base font-semibold">Badges: {leader.badges}</p>
-                  </MagicCard>
-
-                </motion.div>
-              ))
-            ) : (
-              <p>No leaderboard data available.</p>
-            )}
+      {/* Main Content */}
+      <div className="container mx-auto p-12">
+        <motion.div
+        className="grid grid-cols-1 gap-4 lg:grid-cols-1"
+        initial="hidden"
+        animate="show"
+        variants={containerVariants}
+        >
+        {leaderboardData.length > 0 ? (
+          leaderboardData.map((leader, index) => (
+          <motion.div key={index} variants={cardVariants}>
+            <MagicCard
+            className="flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
+            gradientColor="#D9D9D955"
+            >
+            <h3 className="text-base font-medium">{leader.name}</h3>
+            <p className="text-base font-semibold">Badges: {leader.badges}</p>
+            </MagicCard>
           </motion.div>
-        </div>
+          ))
+        ) : (
+          <p>No leaderboard data available.</p>
+        )}
+        </motion.div>
+      </div>
       </div>
     </div>
   );
