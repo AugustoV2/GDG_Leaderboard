@@ -63,7 +63,7 @@ const HomePage = () => {
               leaderboardData.map((leader, index) => (
                 <motion.div key={index} variants={cardVariants}>
                   <MagicCard
-                    className="flex flex-1 flex-row  items-center space-x-[200px] justify-center p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
+                    className="flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto"
                     gradientColor="#D9D9D955"
                   >
                     <h3 className="text-base font-medium">{leader.name}</h3>
