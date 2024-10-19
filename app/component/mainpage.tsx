@@ -10,19 +10,27 @@ const HomePage = () => {
   const [leaderboardData, setLeaderboardData] = useState<{ name: string; badges: number }[]>([]);
 
   useEffect(() => {
-    // Fetch leaderboard data from localStorage
-    const storedData = localStorage.getItem('leaderboardData');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      // Sort by badges and ensure badges are displayed as 0 if absent
-      const sortedData = parsedData
-        .map((entry: { name: string; badges: number }) => ({
-          name: entry.name,
-          badges: entry.badges || 0, // Default to 0 if badges are undefined or absent
-        }))
-        .sort((a: { badges: number; }, b: { badges: number; }) => b.badges - a.badges);
+    // Retrieve Blob ID from localStorage
+    const savedBlobId = '1297128425545129984'; // Blob ID for the JSONBlob API
+    if (savedBlobId) {
 
-      setLeaderboardData(sortedData);
+      // Fetch leaderboard data from JSONBlob using the Blob ID
+      fetch(`https://jsonblob.com/api/jsonBlob/${savedBlobId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Ensure badges are displayed as 0 if absent and sort by badges
+          const sortedData = data
+            .map((entry: { name: string; badges: number }) => ({
+              name: entry.name,
+              badges: entry.badges || 0, // Default to 0 if badges are undefined
+            }))
+            .sort((a: { badges: number }, b: { badges: number }) => b.badges - a.badges);
+
+          setLeaderboardData(sortedData);
+        })
+        .catch((error) => {
+          console.error('Error fetching data from JSONBlob:', error);
+        });
     }
   }, []);
 
