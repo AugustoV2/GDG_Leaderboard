@@ -68,12 +68,12 @@ const HomePage = () => {
       </div>
 
       {/* Navbar */}
-      <div className="relative z-10">
+      <div className="relative z-20"> {/* Adjust z-index of the navbar */}
         <Navbar />
       </div>
 
       {/* Content Below Navbar */}
-      <div className="relative z-10 pt-20 pointer-events-none"> {/* Adjust padding to move content below navbar */}
+      <div className="relative z-10 pt-24 md:pt-20 pointer-events-none"> {/* Add top padding to move content down */}
         {/* Search bar */}
         <div className="container mx-auto p-4 pointer-events-auto">
           <div className="flex justify-center">
@@ -83,8 +83,9 @@ const HomePage = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Search for your name..."
-                className="w-full p-4 pl-12 text-lg rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out bg-white bg-opacity-80"
+                className="w-full p-4 pl-12 text-lg rounded-lg sm:rounded-lg border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out bg-white bg-opacity-80" // Updated to reduce corner radius
               />
+              {/* Replaced with search icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2"
@@ -96,7 +97,7 @@ const HomePage = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M8 11a4 4 0 100-8 4 4 0 000 8zm2 2h8m-4 4v2m0-4v4"
+                  d="M16 11a5 5 0 10-10 0 5 5 0 0010 0zm-2 6l5 5"
                 />
               </svg>
             </div>
@@ -104,7 +105,7 @@ const HomePage = () => {
         </div>
 
         {/* Leaderboard Content */}
-        <div className="container mx-auto p-12 ">
+        <div className="container mx-auto p-6 sm:p-12"> {/* Reduced padding for mobile */}
           <motion.div
             className="grid grid-cols-1 gap-4 lg:grid-cols-1"
             initial="hidden"
@@ -115,7 +116,7 @@ const HomePage = () => {
               filteredData.map((leader, index) => (
                 <motion.div key={index} variants={cardVariants}>
                   <MagicCard
-                    className={`flex items-center space-x-[200px] justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto`}
+                    className={`flex items-center space-x-10 sm:space-x-[200px] justify-between p-2 sm:p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto ${getRankColor(index)} pointer-events-auto`} // Reduced padding in mobile view
                     gradientColor="#D9D9D955"
                   >
                     <h3 className="text-base font-medium">{index + 1}.{leader.name}</h3>
