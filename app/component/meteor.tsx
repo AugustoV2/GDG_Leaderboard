@@ -6,11 +6,14 @@ import Mainpage from "./mainpage";
 
 const LandingPage = () => {
     return (
-        <div className="relative min-h-screen w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+        <div className="relative min-h-screen w-full  overflow-hidden">
             <ParticlesBackground />
-           
-               <Mainpage/>
             
+                <Mainpage />
+           
+
+
+
         </div>
     );
 };
