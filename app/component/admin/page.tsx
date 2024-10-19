@@ -51,11 +51,11 @@ const AdminCSVUpload = () => {
     <div className="container">
       <CSVReader
         cssClass="react-csv-input"
-        label="Select CSV with Skill Badges Data"
+        label="UPLOAD KAROOOOOOOOOOO"
         onFileLoaded={handleForce}
         parserOptions={papaparseOptions}
       />
-      <p>Upload the CSV to update leaderboard data.</p>
+     
       {data.length > 0 && (
         <div>
           <h2>Uploaded Data:</h2>

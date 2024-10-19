@@ -81,7 +81,7 @@ const HomePage = () => {
                 </motion.div>
               ))
             ) : (
-              <p>No leaderboard data available.</p>
+              <p></p>
             )}
           </motion.div>
         </div>
