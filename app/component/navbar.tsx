@@ -22,7 +22,7 @@ const Navbar = () => {
         >
           <img src="https://envs.sh/TxW.png" className="h-8" alt="GDG Logo" />
           <span className="text-xl font-medium text-gray-800 dark:text-white">
-            Google Developer Groups
+            Gen AI Study Jams Leaderboard
           </span>
         </a>
 
