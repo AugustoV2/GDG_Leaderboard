@@ -58,7 +58,7 @@ const HomePage = () => {
 
   const getSpecialHighlight = (leader: LeaderboardEntry) =>
     leader.badges === 15 && leader.arcadeGames === 1
-      ? "bg-yellow-500 text-white"
+      ? "bg-gold-500 text-white"
       : "";
 
   const debouncedSearch = useCallback(
