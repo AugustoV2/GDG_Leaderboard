@@ -5,6 +5,7 @@ import CSVReader from "react-csv-reader";
 interface LeaderboardEntry {
   user_name: string;
   __of_skill_badges_completed: string;
+  __of_arcade_games_completed: string; // Add this field
 }
 
 const blobId = '1297128425545129984';
@@ -17,13 +18,19 @@ const papaparseOptions = {
 };
 
 const AdminCSVUpload = () => {
-  const [data, setData] = useState<{ name: string; badges: number }[]>([]);
-  
+  const [data, setData] = useState<{ name: string; badges: number; arcadeGames: number }[]>([]);
+
   const handleForce = async (uploadedData: Array<LeaderboardEntry>) => {
-    const leaderboardData = uploadedData.map((entry) => ({
-      name: entry['user_name'],
-      badges: parseInt(entry['__of_skill_badges_completed'], 10) || 0,
-    }));
+    const leaderboardData = uploadedData.map((entry) => {
+      const badges = parseInt(entry['__of_skill_badges_completed'], 10) || 0;
+      const arcadeGames = parseInt(entry['__of_arcade_games_completed'], 10) || 0;
+      
+      return {
+        name: entry['user_name'],
+        badges,
+        arcadeGames,
+      };
+    });
 
     leaderboardData.sort((a, b) => b.badges - a.badges);
     setData(leaderboardData);
@@ -71,8 +78,17 @@ const AdminCSVUpload = () => {
           <div className="bg-gray-100 rounded-lg p-4 shadow-inner">
             <ul className="space-y-2">
               {data.map((entry, index) => (
-                <li key={index} className="flex justify-between items-center p-2 rounded-lg bg-white shadow-sm hover:bg-gray-50">
-                  <span className="font-medium text-gray-800">{entry.name}</span>
+                <li
+                  key={index}
+                  className={`flex justify-between items-center p-2 rounded-lg shadow-sm hover:bg-gray-50 
+                    ${entry.badges === 15 && entry.arcadeGames === 1 ? 'bg-green-500 text-white' : 'bg-white'}`}
+                >
+                  <span className="font-medium text-gray-800">
+                    {entry.name}
+                    {entry.badges === 15 && entry.arcadeGames === 1 && (
+                      <span className="ml-2 text-xs text-green-100">Completed</span>
+                    )}
+                  </span>
                   <span className="text-sm text-gray-600">{entry.badges} badges</span>
                 </li>
               ))}

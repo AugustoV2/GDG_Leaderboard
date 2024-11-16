@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -21,6 +21,7 @@ interface LeaderboardEntry {
   name: string;
   badges: number;
   siNumber: number; // Permanent serial number for each user
+  arcadeGames: number; // Field for # of Arcade Games Completed
 }
 
 const HomePage = () => {
@@ -35,14 +36,18 @@ const HomePage = () => {
         .then((response) => response.json())
         .then((data) => {
           const mappedData = data.map(
-            (entry: { name: string; badges: number }, index: number) => ({
+            (
+              entry: { name: string; badges: number; arcadeGames: number },
+              index: number
+            ) => ({
               name: entry.name,
               badges: entry.badges || 0,
+              arcadeGames: entry.arcadeGames || 0,
               siNumber: index + 1,
             })
           );
 
-          const sortedData = mappedData.sort((a: { badges: number; }, b: { badges: number; }) => b.badges - a.badges);
+          const sortedData = mappedData.sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.badges - a.badges);
           setLeaderboardData(sortedData);
           setFilteredData(sortedData);
         })
@@ -51,16 +56,23 @@ const HomePage = () => {
   }, []);
 
   const getRankColor = (index: number) => {
-    if (index === 0) return "bg-gradient-to-r from-gold to-light-gold";
-    if (index === 1) return "bg-gradient-to-r from-silver to-light-silver";
-    if (index === 2) return "bg-gradient-to-r from-bronze to-light-bronze";
-    return "bg-transparent";
+    const rankColors = [
+      "bg-gradient-to-r from-gold to-light-gold",
+      "bg-gradient-to-r from-silver to-light-silver",
+      "bg-gradient-to-r from-bronze to-light-bronze",
+    ];
+    return rankColors[index] || "bg-transparent";
   };
+
+  const getSpecialHighlight = (leader: LeaderboardEntry) =>
+    leader.badges === 15 && leader.arcadeGames === 1
+      ? "bg-green-500 text-white"
+      : "";
 
   const debouncedSearch = useCallback(
     debounce((query: string) => {
       const filtered = leaderboardData.filter((leader) =>
-        leader.name.toLowerCase().includes(query)
+        leader.name?.toLowerCase().includes(query)
       );
       setFilteredData(filtered);
     }, 300),
@@ -75,19 +87,15 @@ const HomePage = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-transparent dark:bg-gray-800 overflow-hidden">
-      {/* Background Particles */}
       <div className="absolute top-0 left-0 right-0 bottom-0 z-0 pointer-events-none">
         <ParticlesBackground />
       </div>
 
-      {/* Navbar */}
       <div className="relative z-20">
         <Navbar />
       </div>
 
-      {/* Content Below Navbar */}
       <div className="relative z-10 pt-24 md:pt-20 pointer-events-none">
-        {/* Search bar */}
         <div className="container mx-auto p-4 pointer-events-auto">
           <div className="flex justify-center">
             <div className="relative w-full max-w-lg">
@@ -115,7 +123,6 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Leaderboard Content */}
         <div className="container mx-auto p-6 sm:p-12">
           <motion.div
             className="grid grid-cols-1 gap-4 lg:grid-cols-1"
@@ -129,7 +136,7 @@ const HomePage = () => {
                   <MagicCard
                     className={`flex items-center justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto bg-opacity-80 bg-white backdrop-blur-md ${getRankColor(
                       index
-                    )} pointer-events-auto`}
+                    )} ${getSpecialHighlight(leader)} pointer-events-auto`}
                     gradientColor="#D9D9D955"
                   >
                     <div className="flex items-center space-x-4">
@@ -143,13 +150,20 @@ const HomePage = () => {
                         <p className="text-sm font-semibold text-gray-600">
                           Badges: {leader.badges}
                         </p>
+                        {leader.badges === 15 && leader.arcadeGames === 1 && (
+                          <p className="text-sm font-bold text-green-900">
+                            Completed 🎉
+                          </p>
+                        )}
                       </div>
                     </div>
                   </MagicCard>
                 </motion.div>
               ))
             ) : (
-              <p className="text-center text-gray-500">No results found.</p>
+              <div className="text-center text-gray-600 mt-4">
+                No leaderboard data available.
+              </div>
             )}
           </motion.div>
         </div>

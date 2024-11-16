@@ -23,11 +23,12 @@ const ParticlesBackground = () => {
                     detectsOn: "canvas",
                     events: {
                         onClick: {
-                            enable: true, // Disabled click interactions to reduce particle generation
+                            enable: true, // Enable click interactions
+                            mode: "push", // Push particles outward on click
                         },
                         onHover: {
                             enable: true,
-                            mode: "repulse",
+                            mode: "repulse", // Repulse particles on hover
                         },
                         resize: true,
                     },
@@ -39,8 +40,21 @@ const ParticlesBackground = () => {
                             size: 30,
                         },
                         repulse: {
-                            distance: 200, // Reduced distance for repulse to make it less CPU-intensive
+                            distance: 400, 
                             duration: 0.4,
+                        },
+                        push: {
+                            particles: {
+                                number: {
+                                    value: 10, // Number of particles to generate on click
+                                },
+                                size: {
+                                    value: 5, // Size of the new particles
+                                },
+                                move: {
+                                    speed: 3, // Speed of particles when pushed
+                                },
+                            },
                         },
                     },
                 },
@@ -50,7 +64,7 @@ const ParticlesBackground = () => {
                     },
                     links: {
                         color: "#000", // Link color
-                        distance: 200, // Reduced link distance for less complexity
+                        distance: 300, // Reduced link distance for less complexity
                         enable: true,
                         opacity: 0.5,
                         width: 1,
