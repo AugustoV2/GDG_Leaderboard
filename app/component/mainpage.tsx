@@ -66,7 +66,7 @@ const HomePage = () => {
 
   const getSpecialHighlight = (leader: LeaderboardEntry) =>
     leader.badges === 15 && leader.arcadeGames === 1
-      ? "bg-green-500 text-white"
+      ? "bg-yellow-500 text-white"
       : "";
 
   const debouncedSearch = useCallback(
@@ -134,9 +134,7 @@ const HomePage = () => {
               filteredData.map((leader, index) => (
                 <motion.div key={index} variants={cardVariants}>
                   <MagicCard
-                    className={`flex items-center justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto bg-opacity-80 bg-white backdrop-blur-md ${getRankColor(
-                      index
-                    )} ${getSpecialHighlight(leader)} pointer-events-auto`}
+                    className={`flex items-center justify-between p-4 shadow-lg rounded-lg w-full max-w-2xl mx-auto bg-opacity-80 bg-white backdrop-blur-md ${getSpecialHighlight(leader)} pointer-events-auto`}
                     gradientColor="#D9D9D955"
                   >
                     <div className="flex items-center space-x-4">
