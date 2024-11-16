@@ -55,14 +55,6 @@ const HomePage = () => {
     }
   }, []);
 
-  const getRankColor = (index: number) => {
-    const rankColors = [
-      "bg-gradient-to-r from-gold to-light-gold",
-      "bg-gradient-to-r from-silver to-light-silver",
-      "bg-gradient-to-r from-bronze to-light-bronze",
-    ];
-    return rankColors[index] || "bg-transparent";
-  };
 
   const getSpecialHighlight = (leader: LeaderboardEntry) =>
     leader.badges === 15 && leader.arcadeGames === 1
